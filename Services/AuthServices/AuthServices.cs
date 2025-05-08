@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
+using BackendProject2.Context;
 using BackendProject2.Dto;
 using BackendProject2.Models;
+using Jose.native;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System;
-using BackendProject2.Context;
 
 namespace BackendProject2.Services.AuthServices
 {
-    public class AuthServices:IAuthServices
+    public class AuthServices : IAuthServices
     {
 
         private readonly AppDbContext _context;
@@ -39,7 +39,7 @@ namespace BackendProject2.Services.AuthServices
 
 
                 var res = _mapper.Map<User>(userRegistrationDto);
-                res.Passoword = HashPassword;
+                res.Password = HashPassword;
                 _context.users.Add(res);
                 await _context.SaveChangesAsync();
 
@@ -63,7 +63,7 @@ namespace BackendProject2.Services.AuthServices
                     return new UserResponseDto { Error = "Not Found" };
                 }
 
-                var pass = validatePassword(userLogin_dto.Password, u.Passoword);
+                var pass = validatePassword(userLogin_dto.Password, u.Password);
                 if (!pass)
                 {
                     return new UserResponseDto { Error = "Invalid Password" };
@@ -126,4 +126,3 @@ namespace BackendProject2.Services.AuthServices
 
     }
 }
-    

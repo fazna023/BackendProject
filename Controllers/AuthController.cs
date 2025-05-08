@@ -36,7 +36,7 @@ namespace BackendProject2.Controllers
 
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(UserLoginDto login)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto login)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace BackendProject2.Controllers
                     return NotFound("Email is not verified");
                 }
 
-                if (res.Error == "invalid password")
+                if (res.Error?.ToLower() == "invalid password")
                 {
                     return BadRequest(res.Error);
                 }
